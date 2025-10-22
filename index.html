@@ -1,420 +1,637 @@
+<!doctype html>
 <html lang="en">
 
-  <head>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fresh Grocery Forest</title>
+  <meta name="description" content="Fresh Grocery Forest — organic fruits, vegetables, grains and daily essentials. Fresh, affordable and delivered with care." />
+  <meta name="theme-color" content="#2f8f4a" />
 
-    <meta charset="UTF-8" />
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Page styles (kept in single file so the page is ready-to-run) -->
+  <style>
+    :root{
+      --green: #2f8f4a;
+      --green-700: #267a3e;
+      --accent: #f7fdf7;
+      --muted: #6b6b6b;
+      --card: #ffffff;
+      --glass: rgba(255,255,255,0.08);
+      --max-width: 1100px;
+      --radius: 12px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:#222;
+      background: linear-gradient(180deg,#f7fffb 0%, #ffffff 40%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    /* NAV */
+    .navbar{
+      position:sticky;
+      top:0;
+      z-index:60;
+      backdrop-filter: blur(6px);
+      background: rgba(255,255,255,0.75);
+      border-bottom:1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 4px 18px rgba(23,31,23,0.03);
+    }
+    .nav-inner{
+      max-width:var(--max-width);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 20px;
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      color:var(--green-700);
+      text-decoration:none;
+      font-size:1.1rem;
+    }
+    .logo .leaf{
+      background:linear-gradient(45deg,#3db56b,#1f8a3d);
+      color:white;
+      width:40px;height:40px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;font-weight:700;
+      box-shadow: 0 6px 18px rgba(47,143,74,0.15);
+    }
 
-    <title>Fresh Grocery Forest</title>
+    nav ul{
+      list-style:none;
+      display:flex;
+      gap:18px;
+      margin:0;padding:0;
+      align-items:center;
+    }
+    nav a{
+      color:#234;
+      text-decoration:none;
+      font-weight:600;
+      padding:8px 10px;
+      border-radius:8px;
+      transition:all .18s ease;
+    }
+    nav a:hover{ background:var(--accent) ; transform:translateY(-2px); color:var(--green-700) }
 
-    <link
+    .nav-actions{
+      display:flex;gap:12px;align-items:center;
+    }
+    .cart-btn{
+      background:transparent;border:1px solid rgba(0,0,0,0.06);
+      padding:8px 10px;border-radius:10px;cursor:pointer;
+      display:flex;align-items:center;gap:8px;font-weight:600;
+    }
+    .cart-count{
+      background:var(--green);color:white;padding:3px 7px;border-radius:999px;font-size:.8rem;
+      box-shadow: 0 6px 12px rgba(47,143,74,0.12);
+    }
 
-      rel="stylesheet"
+    /* Hamburger on mobile */
+    .hamburger{
+      display:none;
+      background:transparent;border:0;padding:0;
+    }
+    .hamburger .bar{ display:block;width:22px;height:2px;background:#333;margin:4px 0;border-radius:2px; }
 
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    /* HERO */
+    .hero{
+      max-width:var(--max-width);margin:28px auto;padding:36px 20px;
+      display:grid;grid-template-columns: 1fr 420px;gap:28px;align-items:center;
+    }
+    .hero-card{
+      padding:36px;background: linear-gradient(180deg, rgba(47,143,74,0.06), rgba(47,143,74,0.02));
+      border-radius:var(--radius);
+      box-shadow: 0 12px 30px rgba(46,67,51,0.06);
+    }
+    .main-title{ font-size:2.2rem;margin:0 0 12px;color:var(--green-700) }
+    .lead{margin:0 0 16px;color:var(--muted);line-height:1.6}
+    .hero-cta{display:flex;gap:12px;margin-top:8px}
+    .btn{
+      border:0;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer;
+    }
+    .btn-primary{ background:var(--green); color:white; box-shadow: 0 8px 20px rgba(47,143,74,0.14); }
+    .btn-outline{ background:transparent;border:1px solid rgba(0,0,0,0.08); color:#152; }
 
-      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    .hero-image{
+      background:linear-gradient(135deg,#eafaf0,#ffffff);
+      border-radius:var(--radius);padding:18px; display:flex;align-items:center;justify-content:center;
+      box-shadow: 0 10px 30px rgba(39,80,40,0.06);
+    }
+    .hero-image img{ width:100%;max-width:380px;border-radius:10px; display:block; }
 
-      crossorigin="anonymous"
+    /* sections */
+    section{ padding:36px 20px; max-width:var(--max-width); margin:18px auto; }
+    h2.section-title{ margin:8px 0 18px; color:var(--green-700) }
 
-      referrerpolicy="no-referrer"
+    .about{ display:flex;gap:28px; align-items:center; flex-wrap:wrap; }
+    .about .about-text{ flex:1 1 360px; }
+    .about .about-img img{ width:320px; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
 
-    />
+    /* product filters and grid */
+    .filters{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+    .filter-btn{ padding:8px 12px; border-radius:999px; border:1px solid rgba(0,0,0,0.06); cursor:pointer; background:transparent; font-weight:600 }
+    .filter-btn.active{ background:var(--green); color:white; box-shadow: 0 8px 18px rgba(47,143,74,0.1) }
 
-    <link rel="stylesheet" href="style.css" />
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:16px;
+    }
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      overflow:hidden;
+      transition:transform .18s ease, box-shadow .18s ease;
+      box-shadow: 0 8px 20px rgba(11,20,10,0.03);
+      display:flex;flex-direction:column;
+    }
+    .card:hover{ transform:translateY(-6px); box-shadow: 0 18px 40px rgba(11,20,10,0.07) }
+    .card .thumb{ width:100%;aspect-ratio:1.7 / 1;background:#f3f7f3;display:flex;align-items:center;justify-content:center;overflow:hidden }
+    .card .thumb img{ width:100%;height:100%;object-fit:cover;display:block; }
+    .card .body{ padding:12px 14px; flex:1; display:flex;flex-direction:column; gap:8px }
+    .price{ color:var(--green-700); font-weight:700 }
+    .muted{ color:var(--muted); font-size:.95rem }
 
-  </head>
+    .card .actions{ display:flex; gap:8px; margin-top:auto }
+    .add-btn{ background:var(--green-700); color:white; padding:8px 12px; border-radius:8px; border:0; cursor:pointer; flex:1 }
+    .details-btn{ background:transparent; border:1px solid rgba(0,0,0,0.06); padding:8px 12px; border-radius:8px; cursor:pointer }
 
-  <body>
+    /* testimonials */
+    .carousel{
+      position:relative; overflow:hidden; border-radius:12px; padding:14px;
+      background:linear-gradient(180deg,#ffffff,#f7fff7);
+      box-shadow: 0 10px 30px rgba(47,143,74,0.04);
+    }
+    .slides{ display:flex; gap:12px; transition:transform .45s cubic-bezier(.22,.9,.3,1); }
+    .testimonial{
+      min-width:100%;
+      box-sizing:border-box;
+      padding:18px;
+    }
+    .stars{ color:#f6c24a; margin-bottom:8px }
+    .carousel-controls{ position:absolute; right:12px; top:12px; display:flex; gap:8px }
 
-    <nav class="navbar">
+    /* contact */
+    .contact-grid{ display:grid; grid-template-columns: 1fr 420px; gap:20px; align-items:center; }
+    .contact img{ width:100%; border-radius:12px; box-shadow: 0 12px 30px rgba(0,0,0,0.06) }
+    .form{ background:var(--card); padding:18px; border-radius:12px; box-shadow: 0 8px 30px rgba(11,20,10,0.03) }
+    .form input,.form textarea{ width:100%; padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06); margin:8px 0; font-family:inherit }
+    .toast{ position:fixed; right:18px; bottom:18px; background:var(--green); color:white;padding:12px 16px;border-radius:12px; box-shadow: 0 12px 30px rgba(47,143,74,0.12); display:none; }
 
-      <div class="navbar-container container">
+    footer{ text-align:center;padding:18px 20px; color:var(--muted) }
 
-          <input type="checkbox" name="" id="">
+    /* small screens */
+    @media (max-width:900px){
+      .hero{ grid-template-columns:1fr; }
+      .contact-grid{ grid-template-columns:1fr; }
+      .grid{ grid-template-columns: repeat(2,1fr); }
+      nav ul{ display:none; }
+      .hamburger{ display:inline-flex; }
+      .nav-actions .cart-btn{ padding:8px; }
+    }
+    @media (max-width:560px){
+      .grid{ grid-template-columns:1fr; }
+      .hero-image img{ max-width:100% }
+      section{ padding:20px 14px }
+      .about .about-img img{ width:100%; max-width:420px }
+    }
 
-          <div class="hamburger-lines">
+    /* utility */
+    .sr-only{ position:absolute;left:-9999px; top:auto; width:1px; height:1px; overflow:hidden }
+    .fade-up{ opacity:0; transform:translateY(12px); transition: all .6s ease; }
+    .reveal{ opacity:1; transform:none }
+  </style>
+</head>
 
-              <span class="line line1"></span>
+<body>
+  <header class="navbar" role="banner">
+    <div class="nav-inner" role="navigation" aria-label="Main navigation">
+      <a class="logo" href="#home">
+        <span class="leaf">FG</span>
+        <span>Fresh Grocery Forest</span>
+      </a>
 
-              <span class="line line2"></span>
+      <button class="hamburger" id="menuToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Toggle menu">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
 
-              <span class="line line3"></span>
+      <nav id="mainNav">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#food-menu">Items</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
 
-          </div>
+      <div class="nav-actions">
+        <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="sr-only">Cart</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-          <ul class="menu-items">
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-card fade-up">
+        <h1 class="main-title">Fresh Groceries Forest</h1>
+        <p class="lead">Eat healthy — it's good for your mind and body. We bring fresh fruits, vegetables, grains and organic-packed products straight to your neighborhood.</p>
 
-              <li><a href="#home">Home</a></li>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#products">Shop items</a>
+          <a class="btn btn-outline" href="#about">Learn more</a>
+        </div>
 
-              <li><a href="#about">About</a></li>
-
-              <li><a href="#food">Category</a></li>
-
-              <li><a href="#food-menu">Items</a></li>
-
-              <li><a href="#testimonials">Testimonial</a></li>
-
-              <li><a href="#contact">Contact</a></li>
-
-          </ul>
-
-          <h1 class="logo">FGF</h1>
-
+        <ul style="display:flex; gap:10px; margin-top:18px; padding:0;">
+          <li style="list-style:none; color:var(--muted)"><i class="fas fa-shipping-fast" style="color:var(--green)"></i> Fast delivery</li>
+          <li style="list-style:none; color:var(--muted)"><i class="fas fa-seedling" style="color:var(--green)"></i> Organic choices</li>
+          <li style="list-style:none; color:var(--muted)"><i class="fas fa-tag" style="color:var(--green)"></i> Great prices</li>
+        </ul>
       </div>
 
-  </nav>
-
-    <section class="showcase-area" id="showcase">
-
-      <div class="showcase-container">
-
-        <h1 class="main-title" id="home">Fresh Groceries Forest</h1>
-
-        <p>Eat Healty, it is good for our health.</p>
-
-        <a href="#food-menu" class="btn btn-primary">Items</a>
-
+      <div class="hero-image fade-up" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1612164207233-4f6bdf9d2e48?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=4b2bbbee6b0a48613546cb6b08bea7d0"
+          alt="Fresh fruits and vegetables" loading="lazy" />
       </div>
-
     </section>
 
+    <!-- ABOUT -->
     <section id="about">
-
-      <div class="about-wrapper container">
-
-        <div class="about-text">
-
+      <div class="about">
+        <div class="about-text fade-up">
           <p class="small">About Us</p>
-
-          <h2>We've beem selling healthy Groceries last for 10 years</h2>
-
-          <p>
-If you want to live your life with healthy mind and healthy body, you are most welcome in our shoping zone, we surve quality Groceries for you.
-     <br>No matter what you need.We got everything 
-including fresh fruits, vegetables and packed food
-            in organic quality.
-          </p>
-
+          <h2 class="section-title">We’ve been selling healthy groceries for over 10 years</h2>
+          <p class="muted">If you want a healthy mind and body, you’re welcome at our shopping zone. We serve quality groceries — fresh fruits, vegetables and packed foods — with organic and affordable options. Customer care and product freshness are our top priorities.</p>
+          <p style="margin-top:12px"><strong>Open:</strong> Mon–Sat • 8:00am – 8:00pm</p>
         </div>
 
-        <div class="about-img">
-
-          <img src="https://5.imimg.com/data5/SELLER/Default/2021/4/XI/JN/QJ/8711856/grocery-shop-interior-design.jpg"/>
-
-        </div>
-
-      </div>
-
-    </section>
-    <section id="food">
-
-      <h2>Our fresh products</h2>
-
-      <div class="food-container container">
-
-        <div class="food-type fruite">
-
-          <div class="img-container">
-
-            <img src="https://i.postimg.cc/yxThVPXk/food1.jpg" alt="error" />
-
-            <div class="img-content">
-
-              <h3>Fruits</h3>
-
-              <a
-
-                href="https://en.wikipedia.org/wiki/Fruit"
-
-                class="btn btn-primary"
-
-                target="blank"
-
-                >learn more</a
-
-              >
-
-            </div>
-
-          </div>
-
-        </div>
-        <div class="food-type vegetable">
-
-          <div class="img-container">
-
-            <img src="https://i.postimg.cc/Nffm6Rkk/food2.jpg" alt="error" />
-
-            <div class="img-content">
-
-              <h3>Vegetable</h3>
-
-              <a
-
-                href="https://en.wikipedia.org/wiki/Vegetable"
-
-                class="btn btn-primary"
-
-                target="blank"
-
-                >learn more</a
-
-              >
-
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="food-type grin">
-
-          <div class="img-container">
-
-            <img src="https://i.postimg.cc/76ZwsPsd/food3.jpg" alt="error" />
-
-            <div class="img-content">
-
-              <h3>Grains</h3>
-
-              <a
-
-                href="https://en.wikipedia.org/wiki/Grain"
-
-                class="btn btn-primary"
-
-                target="blank"
-
-                >learn more</a
-
-              >
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-        <section id="food-menu">
-      <h2 class="food-menu-heading">Food Items</h2>
-      <div class="food-menu-container container">
-        <div class="food-menu-item">
-          <div class="food-img">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5nIoMOLDrSFcgtj7Wsgc_cT5AZpJVp5DseA&usqp=CAU" alt="" />
-          </div>
-          <div class="food-description">
-            <h2 class="food-titile">Onions</h2>
-            <p>
-              Starting from as low as
-            </p>
-            <p class="food-price">Price: &#8377; 50/Kg</p>
-          </div>
-        </div>
-      <div class="food-menu-item">
-          <div class="food-img">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxils5m6pEltLKHekJSUvCJGe2GdWd5vKahg&usqp=CAU"
-              alt="error"
-            />
-          </div>
-          <div class="food-description">
-            <h2 class="food-titile">Cheese</h2>
-            <p>
-             Starting from as low as
-            </p>
-            <p class="food-price">Price: &#8377; 60</p>
-          </div>
-        </div>
-        <div class="food-menu-item">
-          <div class="food-img">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAAUl2Jg5mkgp6MQ9-PEsOyvB8z1YnLczYWg9ANGabHRmZgTtyRTaX3mI&s=10g" alt="" />
-          </div>
-                    <div class="food-description">
-            <h2 class="food-titile">Cabbage</h2>
-            <p>
-              Starting from as low as
-            </p>
-            <p class="food-price">Price: &#8377; 40/Kg</p>
-          </div>
-        </div>
-        <div class="food-menu-item">
-          <div class="food-img">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwhYJSkQ3clyWGONk6VBCgh0X-b_C5iZDOxQ&usqp=CAU" alt="" />
-          </div>
-          
-           <div class="food-description">
-
-            <h2 class="food-titile">Eggplant</h2>
-
-            <p>
-
-              Starting from as low as
-
-            </p>
-
-            <p class="food-price">Price: &#8377; 50/Kg</p>
-
-          </div>
-
-        </div>
-
-        <div class="food-menu-item">
-
-          <div class="food-img">
-
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGg1Wj2hSWju19F9dEx4TFSc9Nm5kGU8kqXw&usqp=CAU" alt="" />
-
-          </div>
-          
-             <div class="food-description">
-            <h2 class="food-titile">Packaged Food</h2>
-            <p>
-              Starting from as low as
-            </p>
-            <p class="food-price">Price: &#8377; 200</p>
-          </div>
-        </div>
-        <div class="food-menu-item">
-          <div class="food-img">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyHmKes1RGlumrkq8YiMpCuXvgmFOhEDaJGw&usqp=CAU" alt="" />
-          </div>
-          
-             <div class="food-description">
-            <h2 class="food-titile">Rice (White/Brown)</h2>
-            <p>
-              Starting from as low as
-            </p>
-            <p class="food-price">Price: &#8377; 150</p>
-          </div>
+        <div class="about-img fade-up" aria-hidden="true">
+          <img src="https://5.imimg.com/data5/SELLER/Default/2021/4/XI/JN/QJ/8711856/grocery-shop-interior-design.jpg" alt="Grocery shop interior" loading="lazy" />
         </div>
       </div>
     </section>
-    
-     <section id="testimonials">
-      <h2 class="testimonial-title">What Our Customers Say</h2>
-      <div class="testimonial-container container">
-        <div class="testimonial-box">
-          <div class="customer-detail">
-            <div class="customer-photo">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSj6qQaMxr5203N-CSGGoLQdk1nRoXP2fUzHw&usqp=CAU" alt="" />
-              <p class="customer-name">Babu Bhaiya</p>
+
+    <!-- PRODUCTS -->
+    <section id="products">
+      <h2 class="section-title">Our fresh products</h2>
+
+      <div class="filters" role="tablist" aria-label="Product filters">
+        <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-btn" data-filter="fruits">Fruits</button>
+        <button class="filter-btn" data-filter="vegetables">Vegetables</button>
+        <button class="filter-btn" data-filter="grains">Grains</button>
+        <button class="filter-btn" data-filter="dairy">Dairy</button>
+      </div>
+
+      <div class="grid" id="productGrid">
+        <!-- Card: Onions -->
+        <article class="card fade-up" data-category="vegetables">
+          <div class="thumb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5nIoMOLDrSFcgtj7Wsgc_cT5AZpJVp5DseA&usqp=CAU" alt="Onions" loading="lazy" />
+          </div>
+          <div class="body">
+            <h3>Onions</h3>
+            <p class="muted">Fresh farm onions, perfect for daily cooking.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px">
+              <div class="price">₹50 / Kg</div>
+              <div class="muted">Starting from</div>
+            </div>
+            <div class="actions">
+              <button class="add-btn" data-item="Onions" data-price="50">Add to cart</button>
+              <button class="details-btn" aria-label="Details for Onions">Details</button>
             </div>
           </div>
-          <div class="star-rating">
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
+        </article>
+
+        <!-- Card: Cheese -->
+        <article class="card fade-up" data-category="dairy">
+          <div class="thumb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxils5m6pEltLKHekJSUvCJGe2GdWd5vKahg&usqp=CAU" alt="Cheese" loading="lazy" />
           </div>
-          <p class="testimonial-text">
-            It's not called Best grocery for nothing. I've been shopping from them for a few years now and there is always good availability and most often the cheapest prices compared to other sellers.
-Customer service has always been very good too.
-          </p>
-         
-        </div>
-        <div class="testimonial-box">
-          <div class="customer-detail">
-            <div class="customer-photo">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRESQs4lQlQd2GOyOI5BHkvrIz84-xMFjtc8Q&usqp=CAU"
-                alt=""
-              />
-              <p class="customer-name">Raju</p>
+          <div class="body">
+            <h3>Cheese</h3>
+            <p class="muted">Delicious fresh cheese — slices and blocks available.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px">
+              <div class="price">₹60</div>
+              <div class="muted">Per unit</div>
+            </div>
+            <div class="actions">
+              <button class="add-btn" data-item="Cheese" data-price="60">Add to cart</button>
+              <button class="details-btn" aria-label="Details for Cheese">Details</button>
             </div>
           </div>
-             <div class="star-rating">
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
+        </article>
+
+        <!-- Card: Cabbage -->
+        <article class="card fade-up" data-category="vegetables">
+          <div class="thumb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAAUl2Jg5mkgp6MQ9-PEsOyvB8z1YnLczYWg9ANGabHRmZgTtyRTaX3mI&s=10g" alt="Cabbage" loading="lazy" />
           </div>
-          <p class="testimonial-text">
-            Great customer experience. Fast response to queries and Fair price, each item securely packed and cooling bags for fridge items. It was our second order from them and will become a regular. Thank you very much
-          </p>
-         
-        </div>
-        <div class="testimonial-box">
-          <div class="customer-detail">
-            <div class="customer-photo">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6o5_RuG9AupfBFVUhTGLUFeNlWbu1O31ERw&usqp=CAU" alt="" />
-              <p class="customer-name">Sham</p>
+          <div class="body">
+            <h3>Cabbage</h3>
+            <p class="muted">Crisp green cabbage, rich in vitamins.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px">
+              <div class="price">₹40 / Kg</div>
+              <div class="muted">Starting from</div>
+            </div>
+            <div class="actions">
+              <button class="add-btn" data-item="Cabbage" data-price="40">Add to cart</button>
+              <button class="details-btn" aria-label="Details for Cabbage">Details</button>
             </div>
           </div>
-          
-           <div class="star-rating">
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
+        </article>
+
+        <!-- Card: Eggplant -->
+        <article class="card fade-up" data-category="vegetables">
+          <div class="thumb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwhYJSkQ3clyWGONk6VBCgh0X-b_C5iZDOxQ&usqp=CAU" alt="Eggplant" loading="lazy" />
           </div>
-          <p class="testimonial-text">
-            Excellent as always, recommend this store 100%. Love getting my favourite sucuk (efepaşa) from you guys, there are no stores near me that sell it unfortunately, so I’m so thankful for your store. 
-          </p>
-         
-        </div>
+          <div class="body">
+            <h3>Eggplant</h3>
+            <p class="muted">Shiny purple eggplants, ideal for grills and curries.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px">
+              <div class="price">₹50 / Kg</div>
+              <div class="muted">Starting from</div>
+            </div>
+            <div class="actions">
+              <button class="add-btn" data-item="Eggplant" data-price="50">Add to cart</button>
+              <button class="details-btn" aria-label="Details for Eggplant">Details</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card: Packaged Food -->
+        <article class="card fade-up" data-category="packaged">
+          <div class="thumb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGg1Wj2hSWju19F9dEx4TFSc9Nm5kGU8kqXw&usqp=CAU" alt="Packaged Food" loading="lazy" />
+          </div>
+          <div class="body">
+            <h3>Packaged Food</h3>
+            <p class="muted">Tasty and safe packaged food from trusted brands.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px">
+              <div class="price">₹200</div>
+              <div class="muted">Per pack</div>
+            </div>
+            <div class="actions">
+              <button class="add-btn" data-item="Packaged Food" data-price="200">Add to cart</button>
+              <button class="details-btn" aria-label="Details for Packaged Food">Details</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card: Rice -->
+        <article class="card fade-up" data-category="grains">
+          <div class="thumb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyHmKes1RGlumrkq8YiMpCuXvgmFOhEDaJGw&usqp=CAU" alt="Rice" loading="lazy" />
+          </div>
+          <div class="body">
+            <h3>Rice (White / Brown)</h3>
+            <p class="muted">Quality rice, locally sourced and well-processed.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px">
+              <div class="price">₹150</div>
+              <div class="muted">Per bag</div>
+            </div>
+            <div class="actions">
+              <button class="add-btn" data-item="Rice" data-price="150">Add to cart</button>
+              <button class="details-btn" aria-label="Details for Rice">Details</button>
+            </div>
+          </div>
+        </article>
+
       </div>
     </section>
-     <section id="contact">
-      <div class="contact-container container">
-        <div class="contact-img">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu54ZUREO9y1a-8AsK13hvWTxguyD7FRmwKg&usqp=CAU" alt="" />
+
+    <!-- FOOD MENU (kept as existing items but styled) -->
+    <section id="food-menu">
+      <h2 class="section-title">Food Items</h2>
+      <div style="display:grid; gap:12px;">
+        <div class="card" style="flex-direction:row; align-items:center; gap:12px; padding:12px;">
+          <div style="width:96px; overflow:hidden; border-radius:8px;">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5nIoMOLDrSFcgtj7Wsgc_cT5AZpJVp5DseA&usqp=CAU" alt="Onions" loading="lazy" style="width:100%; display:block;">
+          </div>
+          <div style="flex:1;">
+            <h3 style="margin:0">Onions • <span class="price">₹50 / Kg</span></h3>
+            <p class="muted" style="margin:6px 0 0;">Starting from as low as — Farm fresh, hand-sorted</p>
+          </div>
         </div>
 
-        <div class="form-container">
-          <h2>Contact Us</h2>
-          <input type="text" placeholder="Your Name" />
-          <input type="email" placeholder="E-Mail" />
-          <textarea
-            cols="30"
-            rows="6"
-            placeholder="Type Your Message"
-          ></textarea>
-          <a href="#" class="btn btn-primary">Submit</a>
+        <!-- You can add more menu-list items similarly -->
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
+      <h2 class="section-title">What Our Customers Say</h2>
+
+      <div class="carousel" aria-roledescription="carousel" aria-label="Customer testimonials">
+        <div class="slides" id="slides">
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p><strong>Babu Bhaiya</strong></p>
+            <p class="muted">"It's not called Best grocery for nothing. I've been shopping from them for years — always good availability and great prices."</p>
+          </div>
+
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p><strong>Raju</strong></p>
+            <p class="muted">"Great customer experience. Fast response and items securely packed. Will be a regular customer."</p>
+          </div>
+
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p><strong>Sham</strong></p>
+            <p class="muted">"Excellent as always, recommend this store 100%."</p>
+          </div>
+        </div>
+
+        <div class="carousel-controls" aria-hidden="true">
+          <button id="prevSlide" class="details-btn" title="Previous"><i class="fas fa-chevron-left"></i></button>
+          <button id="nextSlide" class="details-btn" title="Next"><i class="fas fa-chevron-right"></i></button>
         </div>
       </div>
     </section>
-    <footer id="footer">
-      <h2>Grocerie Store &copy; all rights reserved</h2>
-    </footer>
-  </body>
-    
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- CONTACT -->
+    <section id="contact" aria-labelledby="contactHeading">
+      <h2 id="contactHeading" class="section-title">Contact Us</h2>
+
+      <div class="contact-grid">
+        <div aria-hidden="true">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu54ZUREO9y1a-8AsK13hvWTxguyD7FRmwKg&usqp=CAU" alt="Contact image" loading="lazy" />
+        </div>
+
+        <form class="form" id="contactForm" novalidate>
+          <h3 style="margin-top:0">Send us a message</h3>
+          <label class="sr-only" for="name">Your name</label>
+          <input id="name" type="text" placeholder="Your name" required />
+
+          <label class="sr-only" for="email">Your email</label>
+          <input id="email" type="email" placeholder="Email address" required />
+
+          <label class="sr-only" for="message">Message</label>
+          <textarea id="message" rows="5" placeholder="Type your message" required></textarea>
+
+          <div style="display:flex; gap:8px; margin-top:8px;">
+            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-outline" type="reset">Reset</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer">
+    <p>Grocerie Store &copy; <span id="year"></span> — all rights reserved</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Item added to cart</div>
+
+  <!-- Scripts: small, vanilla JS for interactivity -->
   <script>
-    $(document).ready(function () {
-      // Add smooth scrolling to all links
-      $("a").on("click", function (event) {
-        // Make sure this.hash has a value before overriding default behavior
-        if (this.hash !== "") {
-          // Prevent default anchor click behavior
-          event.preventDefault();
+    // Simple helpers
+    const qs = (s, el=document) => el.querySelector(s);
+    const qsa = (s, el=document) => Array.from(el.querySelectorAll(s));
 
-          // Store hash
-          var hash = this.hash;
+    // set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-          // Using jQuery's animate() method to add smooth page scroll
-          // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-          $("html, body").animate(
-            {
-              scrollTop: $(hash).offset().top,
-            },
-            800,
-            function () {
-              // Add hash (#) to URL when done scrolling (default click behavior)
-              window.location.hash = hash;
-            }
-          );
-        } // End if
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+    menuToggle?.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!expanded));
+      // Show/hide nav list for small screens
+      const ul = mainNav.querySelector('ul');
+      if (ul) {
+        ul.style.display = (ul.style.display === 'flex') ? 'none' : 'flex';
+        ul.style.flexDirection = window.innerWidth < 900 ? 'column' : 'row';
+        ul.style.gap = '12px';
+        ul.style.alignItems = 'center';
+      }
+    });
+
+    // Filter products
+    const filterBtns = qsa('.filter-btn');
+    const cards = qsa('.card[data-category]');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        cards.forEach(card => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
       });
     });
+
+    // Cart handling (simple demo using localStorage)
+    const cartCountEl = document.getElementById('cartCount');
+    const toast = document.getElementById('toast');
+    let cartCount = Number(localStorage.getItem('fgf_cart') || 0);
+    cartCountEl.textContent = cartCount;
+
+    function showToast(msg = 'Added to cart') {
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      toast.style.opacity = '1';
+      setTimeout(()=> {
+        toast.style.opacity = '0';
+        setTimeout(()=> toast.style.display = 'none', 300);
+      }, 1400);
+    }
+
+    qsa('.add-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const name = btn.dataset.item || 'Item';
+        const price = Number(btn.dataset.price || 0);
+        // increment simple count
+        cartCount += 1;
+        localStorage.setItem('fgf_cart', String(cartCount));
+        cartCountEl.textContent = cartCount;
+        showToast(`${name} added • ₹${price}`);
+      });
+    });
+
+    // Simple testimonial carousel
+    const slidesEl = document.getElementById('slides');
+    const slideCount = slidesEl ? slidesEl.children.length : 0;
+    let slideIndex = 0;
+    const goTo = (i) => {
+      if(!slidesEl) return;
+      slideIndex = (i + slideCount) % slideCount;
+      slidesEl.style.transform = `translateX(-${slideIndex * 100}%)`;
+    };
+    document.getElementById('prevSlide')?.addEventListener('click', ()=> goTo(slideIndex-1));
+    document.getElementById('nextSlide')?.addEventListener('click', ()=> goTo(slideIndex+1));
+    // auto-advance
+    setInterval(()=> goTo(slideIndex+1), 5000);
+
+    // Contact form validation and feedback
+    document.getElementById('contactForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = qs('#name').value.trim();
+      const email = qs('#email').value.trim();
+      const message = qs('#message').value.trim();
+      if (!name || !email || !message) {
+        showToast('Please fill out all fields');
+        return;
+      }
+      // simulate sending
+      showToast('Thanks! We received your message.');
+      e.target.reset();
+    });
+
+    // reveal on scroll
+    const reveals = qsa('.fade-up');
+    const revealOnScroll = () => {
+      const trigger = window.innerHeight - 60;
+      reveals.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top < trigger) el.classList.add('reveal');
+      });
+    };
+    window.addEventListener('scroll', revealOnScroll, { passive: true });
+    window.addEventListener('load', revealOnScroll);
+
+    // keyboard accessibility: close menu on Escape
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const ul = mainNav.querySelector('ul');
+        if (ul && ul.style.display === 'flex') {
+          ul.style.display = 'none';
+          menuToggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
   </script>
+</body>
+
 </html>
